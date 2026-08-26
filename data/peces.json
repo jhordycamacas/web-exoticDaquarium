@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "nombre": "Tetra Neón",
+    "cientifico": "Paracheirodon innesi",
+    "tipo": "Agua Dulce",
+    "precio": 3.99,
+    "destacado": true,
+    "novedad": false,
+    "tamaño_cm": 4,
+    "descripcion": "El pez más popular para acuarios comunitarios. Su franja azul neón y roja ilumina cualquier tanque.",
+    "imagen": "https://placehold.co/400x300/17658A/FFFFFF?text=Tetra+Neon"
+  },
+  {
+    "id": 2,
+    "nombre": "Pez Ángel",
+    "cientifico": "Pterophyllum scalare",
+    "tipo": "Agua Dulce",
+    "precio": 12.50,
+    "destacado": true,
+    "novedad": false,
+    "tamaño_cm": 15,
+    "descripcion": "Elegante y majestuoso, con sus aletas alargadas. Ideal para acuarios plantados.",
+    "imagen": "https://placehold.co/400x300/17658A/FFFFFF?text=Pez+Angel"
+  },
+  {
+    "id": 3,
+    "nombre": "Guppy Cobra",
+    "cientifico": "Poecilia reticulata",
+    "tipo": "Agua Dulce",
+    "precio": 2.50,
+    "destacado": false,
+    "novedad": true,
+    "tamaño_cm": 5,
+    "descripcion": "Perfecto para principiantes. Colores vibrantes y patrones únicos.",
+    "imagen": "https://placehold.co/400x300/17658A/FFFFFF?text=Guppy"
+  },
+  {
+    "id": 4,
+    "nombre": "Pez Payaso",
+    "cientifico": "Amphiprion ocellaris",
+    "tipo": "Agua Salada",
+    "precio": 25.00,
+    "destacado": true,
+    "novedad": false,
+    "tamaño_cm": 8,
+    "descripcion": "Famoso por 'Buscando a Nemo'. Resistente y lleno de personalidad.",
+    "imagen": "https://placehold.co/400x300/17658A/FFFFFF?text=Pez+Payaso"
+  },
+  {
+    "id": 5,
+    "nombre": "Cirujano Azul",
+    "cientifico": "Paracanthurus hepatus",
+    "tipo": "Agua Salada",
+    "precio": 45.00,
+    "destacado": true,
+    "novedad": false,
+    "tamaño_cm": 30,
+    "descripcion": "El famoso 'Dory'. Color azul vibrante con cola amarilla.",
+    "imagen": "https://placehold.co/400x300/17658A/FFFFFF?text=Cirujano+Azul"
+  }
+]
