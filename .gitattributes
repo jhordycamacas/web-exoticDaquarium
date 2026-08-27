@@ -1,0 +1,28 @@
+# ------------------------------------------------------------------
+# Git LFS: archivos binarios grandes
+#
+# Solo videos y los originales de alta resolucion. Las fotos del
+# catalogo (.jpg) van como archivos normales a proposito: pesan poco
+# y asi cualquier alojamiento las sirve sin configuracion extra.
+#
+# OJO CON GITHUB PAGES: Pages NO resuelve los archivos de LFS, sirve
+# el fichero puntero en texto plano. Si publicas la web con Pages, el
+# video del inicio saldra roto. Soluciones:
+#   a) Publicar en Netlify, Vercel o Cloudflare Pages (soportan LFS).
+#   b) Alojar el video fuera (YouTube, Cloudinary) y enlazarlo.
+#   c) Quitar la linea *.mp4 de aqui y ejecutar:
+#        git lfs untrack "*.mp4" && git add --renormalize .
+# ------------------------------------------------------------------
+*.mp4  filter=lfs diff=lfs merge=lfs -text
+*.webm filter=lfs diff=lfs merge=lfs -text
+*.mov  filter=lfs diff=lfs merge=lfs -text
+
+# Originales de alta resolucion (no los sirve la web)
+*-original.png filter=lfs diff=lfs merge=lfs -text
+
+# Fin de linea consistente en el codigo fuente
+*.js   text eol=lf
+*.css  text eol=lf
+*.html text eol=lf
+*.json text eol=lf
+*.md   text eol=lf

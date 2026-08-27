@@ -114,6 +114,9 @@ assets/
 └── images/
     ├── hero-poster.jpg   ← imagen fija mientras carga el video del inicio
     ├── nosotros.jpg      ← foto vertical de "Quiénes somos" (unos 900×1125)
+    ├── logo.webp         ← el logo que usa la web (256 px, 26 KB)
+    ├── favicon.png       ← icono de la pestaña (64 px)
+    ├── logo-original.png ← el logo en alta resolución, por si lo necesitas
     └── catalogo/
         ├── pez-1.jpg     ← foto principal (sale en la tarjeta)
         ├── pez-1-1.jpg   ← galería de la ficha
@@ -123,6 +126,23 @@ assets/
 
 Recomendaciones: fotos horizontales de **1200×900 px** aprox. y el video del inicio
 en **1920×1080, menos de 10 MB** y sin audio (se reproduce en silencio).
+
+### Archivos pesados (Git LFS)
+
+Los videos (`.mp4`, `.webm`, `.mov`) y los originales `*-original.png` se guardan con
+**Git LFS**, para que el repositorio no engorde cada vez que reemplaces un video. No
+tienes que hacer nada especial: copia el archivo y haz commit como siempre.
+
+Si clonas el proyecto en otro ordenador, instala LFS una vez antes de clonar:
+
+```bash
+git lfs install
+```
+
+> **Antes de publicar con GitHub Pages:** Pages **no** resuelve los archivos de LFS —
+> sirve el fichero puntero y el video sale roto. Si vas a usar Pages, publica en
+> Netlify / Vercel / Cloudflare Pages en su lugar, o saca el video de LFS con
+> `git lfs untrack "*.mp4"`. Está explicado en `.gitattributes`.
 
 Mientras no existan los archivos, la consola del navegador mostrará errores 404.
 Es normal y esperado: desaparecen cuando subas las fotos.

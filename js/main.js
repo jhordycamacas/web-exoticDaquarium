@@ -17,7 +17,7 @@ function montarHeader() {
   $('#header').innerHTML = `
     <div class="container header__inner">
       <a href="#/" class="brand" data-link aria-label="${esc(SITE.nombre)}, ir al inicio">
-        <img src="assets/images/logo.png" alt="" class="brand__logo" width="44" height="44" />
+        <img src="assets/images/logo.webp" alt="" class="brand__logo" width="44" height="44" />
         <span class="brand__name">
           Exotic <em>D.</em> Aquarium
           <span class="brand__tag">${esc(SITE.claim)}</span>
@@ -95,7 +95,7 @@ function montarFooter() {
       <div class="footer__grid">
         <div class="footer__about">
           <a href="#/" class="brand" data-link>
-            <img src="assets/images/logo.png" alt="" class="brand__logo" width="44" height="44" />
+            <img src="assets/images/logo.webp" alt="" class="brand__logo" width="44" height="44" />
             <span class="brand__name">Exotic <em>D.</em> Aquarium
               <span class="brand__tag">${esc(SITE.claim)}</span></span>
           </a>
