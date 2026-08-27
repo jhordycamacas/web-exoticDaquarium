@@ -1,0 +1,122 @@
+/* ===== Variables de color (basadas en tu paleta) ===== */
+:root {
+    --primary: #165A46;
+    --primary-dark: #0B3027;
+    --ocean: #17658A;
+    --water: #6CC7E5;
+    --sand: #C7A96B;
+    --background: #071C17;
+    --surface: #102D26;
+    --text: #F4F8F6;
+    --text-muted: #A9BBB5;
+}
+
+/* ===== Estilos base ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+}
+
+/* ===== Animación de burbujas (para el hero) ===== */
+.bubbles {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.bubble {
+    position: absolute;
+    bottom: -40px;
+    background: radial-gradient(circle at 30% 30%, rgba(108, 199, 229, 0.3), rgba(108, 199, 229, 0.05));
+    border-radius: 50%;
+    border: 1px solid rgba(108, 199, 229, 0.2);
+    animation: rise linear infinite;
+}
+
+@keyframes rise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-110vh) scale(0.5);
+        opacity: 0;
+    }
+}
+
+/* ===== Efecto hover en tarjetas ===== */
+.pez-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: var(--surface);
+    border: 1px solid rgba(22, 90, 70, 0.4);
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.pez-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    border-color: var(--water);
+}
+
+/* ===== Animación de entrada para tarjetas ===== */
+.pez-card {
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+}
+
+@keyframes fadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Estilo para el buscador y select ===== */
+#searchInput,
+#filterType {
+    background-color: var(--surface);
+    color: var(--text);
+    border: 1px solid rgba(22, 90, 70, 0.5);
+    border-radius: 9999px;
+    padding: 0.5rem 1rem;
+    transition: border-color 0.3s;
+}
+
+#searchInput:focus,
+#filterType:focus {
+    outline: none;
+    border-color: var(--water);
+    box-shadow: 0 0 0 3px rgba(108, 199, 229, 0.2);
+}
+
+/* ===== Badges (destacado, novedad) ===== */
+.badge {
+    display: inline-block;
+    padding: 0.2rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.badge-destacado {
+    background-color: var(--sand);
+    color: var(--background);
+}
+
+.badge-novedad {
+    background-color: var(--water);
+    color: var(--background);
+}
