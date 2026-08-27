@@ -1,97 +1,180 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // ===== 1. Crear burbujas en el hero =====
-    function crearBurbujas() {
-        const contenedor = document.querySelector('.bubbles');
-        if (!contenedor) return;
-        for (let i = 0; i < 25; i++) {
-            const burbuja = document.createElement('div');
-            burbuja.className = 'bubble';
-            const size = Math.random() * 40 + 10;
-            burbuja.style.width = size + 'px';
-            burbuja.style.height = size + 'px';
-            burbuja.style.left = Math.random() * 100 + '%';
-            burbuja.style.animationDuration = Math.random() * 10 + 15 + 's';
-            burbuja.style.animationDelay = Math.random() * 10 + 's';
-            contenedor.appendChild(burbuja);
-        }
+/* ============================================================
+   Arranque: cabecera, menú móvil, footer y router
+   ============================================================ */
+import { SITE, NOSOTROS } from './config.js';
+import { $, $$, esc, icon, iconSolid, waLink, mailLink, isTBD } from './ui.js';
+import { iniciarRouter } from './router.js';
+
+const ENLACES = [
+  ['#/',          'Inicio'],
+  ['#/catalogo',  'Catálogo'],
+  ['#/servicios', 'Servicios'],
+  ['#/contacto',  'Contacto']
+];
+
+/* ---------- Cabecera ---------- */
+function montarHeader() {
+  $('#header').innerHTML = `
+    <div class="container header__inner">
+      <a href="#/" class="brand" data-link aria-label="${esc(SITE.nombre)}, ir al inicio">
+        <img src="assets/images/logo.png" alt="" class="brand__logo" width="44" height="44" />
+        <span class="brand__name">
+          Exotic <em>D.</em> Aquarium
+          <span class="brand__tag">${esc(SITE.claim)}</span>
+        </span>
+      </a>
+
+      <nav class="nav" aria-label="Navegación principal">
+        ${ENLACES.map(([href, texto]) =>
+          `<a href="${href}" data-link data-nav>${texto}</a>`).join('')}
+      </nav>
+
+      <div class="header__actions">
+        <a href="#/contacto" class="btn btn--sm" data-link>Pedir asesoría ${icon('arrow')}</a>
+        <button class="icon-btn burger" id="burger" aria-label="Abrir menú"
+                aria-expanded="false" aria-controls="mobileMenu">${icon('menu')}</button>
+      </div>
+    </div>`;
+
+  $('#mobileMenu').innerHTML = `
+    ${ENLACES.map(([href, texto]) => `<a href="${href}" data-link>${texto}</a>`).join('')}
+    <a href="#/contacto" class="btn" data-link>Pedir asesoría ${icon('arrow')}</a>`;
+
+  const burger = $('#burger');
+  const menu = $('#mobileMenu');
+
+  const cerrar = () => {
+    menu.classList.remove('is-open');
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('no-scroll');
+  };
+
+  burger.addEventListener('click', () => {
+    const abierto = menu.classList.toggle('is-open');
+    burger.setAttribute('aria-expanded', String(abierto));
+    burger.innerHTML = icon(abierto ? 'close' : 'menu');
+    document.body.classList.toggle('no-scroll', abierto);
+    $$('a', menu).forEach((a, i) => {
+      a.style.transitionDelay = abierto ? `${60 + i * 55}ms` : '0ms';
+    });
+  });
+
+  $$('a', menu).forEach((a) => a.addEventListener('click', () => {
+    cerrar();
+    burger.innerHTML = icon('menu');
+  }));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+      cerrar();
+      burger.innerHTML = icon('menu');
     }
-    crearBurbujas();
+  });
+}
 
-    // ===== 2. Cargar los peces desde el JSON =====
-    let todosLosPeces = [];
+/* ---------- Pie de página ---------- */
+function montarFooter() {
+  const wa = waLink();
+  const mail = mailLink();
 
-    async function cargarPeces() {
-        try {
-            const respuesta = await fetch('data/peces.json');
-            if (!respuesta.ok) throw new Error('No se pudo cargar el archivo de peces.');
-            todosLosPeces = await respuesta.json();
-            // Renderizamos todos al inicio
-            renderizarPeces(todosLosPeces);
-        } catch (error) {
-            console.error('Error al cargar los peces:', error);
-            document.getElementById('productGrid').innerHTML = `
-                <p class="col-span-full text-center text-red-400">Error al cargar los productos. Intenta de nuevo más tarde.</p>
-            `;
-        }
-    }
+  const linea = (ico, texto, enlace) => {
+    const contenido = isTBD(texto)
+      ? '<span class="tbd">Aún no definido</span>'
+      : (enlace ? `<a href="${enlace}">${esc(texto)}</a>` : esc(texto));
+    return `<li>${icon(ico)} ${contenido}</li>`;
+  };
 
-    // ===== 3. Renderizar tarjetas =====
-    function renderizarPeces(peces) {
-        const grid = document.getElementById('productGrid');
-        const noResults = document.getElementById('noResults');
+  const redes = [
+    ['instagram', SITE.instagram],
+    ['facebook', SITE.facebook],
+    ['tiktok', SITE.tiktok]
+  ].filter(([, url]) => url);
 
-        if (peces.length === 0) {
-            grid.innerHTML = '';
-            noResults.classList.remove('hidden');
-            return;
-        }
-        noResults.classList.add('hidden');
+  $('#footer').innerHTML = `
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__about">
+          <a href="#/" class="brand" data-link>
+            <img src="assets/images/logo.png" alt="" class="brand__logo" width="44" height="44" />
+            <span class="brand__name">Exotic <em>D.</em> Aquarium
+              <span class="brand__tag">${esc(SITE.claim)}</span></span>
+          </a>
+          <p>${esc(NOSOTROS.resumen)}</p>
+          ${redes.length ? `<div class="socials">${redes.map(([r, url]) =>
+            `<a href="${esc(url)}" target="_blank" rel="noopener" aria-label="${r}">${iconSolid[r]}</a>`
+          ).join('')}</div>` : ''}
+        </div>
 
-        // Generamos el HTML de cada tarjeta
-        const html = peces.map(pez => `
-            <div class="pez-card p-4 flex flex-col items-start gap-2 transition-all" style="animation-delay: ${Math.random() * 0.3}s">
-                <div class="w-full h-48 bg-[#102D26] rounded-lg overflow-hidden relative">
-                    <img src="${pez.imagen}" alt="${pez.nombre}" class="w-full h-full object-cover" />
-                    ${pez.destacado ? `<span class="badge badge-destacado absolute top-2 left-2">Destacado</span>` : ''}
-                    ${pez.novedad ? `<span class="badge badge-novedad absolute top-2 right-2">Novedad</span>` : ''}
-                </div>
-                <h3 class="text-xl font-bold text-[#F4F8F6]">${pez.nombre}</h3>
-                <p class="text-sm text-[#A9BBB5] line-clamp-2">${pez.descripcion}</p>
-                <div class="flex items-center justify-between w-full mt-2">
-                    <span class="text-lg font-semibold text-[#6CC7E5]">$${pez.precio.toFixed(2)}</span>
-                    <span class="text-xs text-[#A9BBB5]">${pez.tipo}</span>
-                </div>
-                <button class="mt-2 w-full bg-[#165A46] hover:bg-[#0B3027] text-[#F4F8F6] font-medium py-2 rounded-full transition-colors">
-                    Agregar al carrito
-                </button>
-            </div>
-        `).join('');
+        <div>
+          <h4>Explorar</h4>
+          <div class="footer__links">
+            ${ENLACES.map(([href, texto]) =>
+              `<a href="${href}" data-link>${texto}</a>`).join('')}
+          </div>
+        </div>
 
-        grid.innerHTML = html;
-    }
+        <div>
+          <h4>Catálogo</h4>
+          <div class="footer__links">
+            <a href="#/catalogo/peces" data-link>Peces</a>
+            <a href="#/catalogo/productos" data-link>Productos</a>
+            <a href="#/catalogo/servicios" data-link>Servicios</a>
+            <a href="#/catalogo/todo" data-link>Ver todo</a>
+          </div>
+        </div>
 
-    // ===== 4. Filtrar y buscar =====
-    function filtrarPeces() {
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-        const tipoSeleccionado = document.getElementById('filterType').value;
+        <div>
+          <h4>Contacto</h4>
+          <ul class="footer__contact">
+            ${linea('chat', SITE.whatsapp, wa)}
+            ${linea('mail', SITE.email, mail)}
+            ${linea('pin', SITE.ciudad)}
+            ${linea('clock', SITE.horario)}
+          </ul>
+        </div>
+      </div>
 
-        const filtrados = todosLosPeces.filter(pez => {
-            const coincideNombre = pez.nombre.toLowerCase().includes(searchTerm);
-            const coincideTipo = tipoSeleccionado === 'all' || pez.tipo === tipoSeleccionado;
-            return coincideNombre && coincideTipo;
-        });
+      <div class="footer__bottom">
+        <p>© <span id="anio"></span> ${esc(SITE.nombre)}. Todos los derechos reservados.</p>
+        <p>Hecho con agua limpia y mucha paciencia.</p>
+      </div>
+    </div>`;
 
-        renderizarPeces(filtrados);
-    }
+  $('#anio').textContent = new Date().getFullYear();
 
-    // ===== 5. Event listeners =====
-    document.getElementById('searchInput').addEventListener('input', filtrarPeces);
-    document.getElementById('filterType').addEventListener('change', filtrarPeces);
+  // Botón flotante de WhatsApp
+  const flotante = $('#waBtn');
+  if (wa) {
+    flotante.href = wa;
+    flotante.innerHTML = iconSolid.whatsapp;
+  } else {
+    flotante.remove();
+  }
+}
 
-    // ===== 6. Iniciar la carga =====
-    cargarPeces();
+/* ---------- Efectos globales de scroll ---------- */
+function montarScroll() {
+  const header = $('#header');
+  const barra = $('#progress');
+  const flotante = $('#waBtn');
 
-    // ===== 7. (Opcional) Modo oscuro - por ahora solo un toggle visual =====
-    // El botón de modo oscuro no tiene funcionalidad aún, pero puedes añadirla después.
-    // Si quieres, ahora mismo no la implementamos para no complicar.
-});
+  const alScroll = () => {
+    const y = window.scrollY;
+    header.classList.toggle('is-stuck', y > 20);
+
+    const alto = document.documentElement.scrollHeight - window.innerHeight;
+    barra.style.width = alto > 0 ? `${(y / alto) * 100}%` : '0%';
+
+    if (flotante) flotante.classList.toggle('is-visible', y > 400);
+  };
+
+  window.addEventListener('scroll', alScroll, { passive: true });
+  window.addEventListener('resize', alScroll);
+  alScroll();
+}
+
+/* ---------- Inicio ---------- */
+montarHeader();
+montarFooter();
+montarScroll();
+iniciarRouter();
