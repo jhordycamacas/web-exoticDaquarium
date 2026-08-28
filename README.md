@@ -91,8 +91,6 @@ nombre y la foto aparece sola. No hay que tocar código para llenar el catálogo
 - **Textos del catálogo.** Las 18 fichas están creadas pero sin rellenar: 238 campos
   marcados como *"Aún no definido"* (nombres, precios, descripciones y parámetros del
   agua). La web los muestra en gris y en cursiva mientras tanto, sin romperse.
-- **Dirección exacta.** El mapa ya está puesto; las calles y la referencia que se leen
-  debajo son texto de demostración, pendiente de reescribir.
 - **Horario de atención** — sin definir.
 
 ### Pendiente
