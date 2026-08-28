@@ -172,16 +172,21 @@ Están todos arriba del todo en `css/styles.css`, en el bloque `:root`:
 | Token | Para qué sirve |
 |---|---|
 | `--agua` | Color de marca: enlaces, botón principal, foco, pestañas activas |
-| `--madera` | Acento cálido **reservado**: CTA, precios, etiqueta "Destacado" |
-| `--planta` | Verde de detalle. Casi no se usa, y es a propósito |
+| `--hondo` | Azul profundo **reservado**: CTA, precios, etiqueta "Destacado" |
+| `--agua-clara` | Azul medio decorativo: degradados, estados hover |
+| `--menta` `--menta-sup` | Verde agua de detalle y superficies suaves |
 | `--text` `--muted` `--dim` | Los tres niveles de texto |
 | `--bg` `--surface` | Fondo de la página y de las tarjetas |
 
-La idea de fondo: **el verde y el azul los ponen tus fotos, no la interfaz**. Si la web
-fuera verde, las fotos de los peces se hundirían en el fondo. Por eso el marco es neutro
-cálido y el acento fuerte es terracota: contrasta con las fotos en vez de competir con
-ellas. Es lo mismo que hacen Tropica (azul-agua sobre grises) y Green Aqua — que se
-llama "verde" y usa naranja de acento.
+La paleta es la de Color Hunt: `#3368A0` · `#66A3BF` · `#C8DFDB` · `#F2EFE7`
+(la muestra está en `assets/images/ubicacion_y_extras/`).
+
+Es una gama **analógica** — azul, verde agua y crema, sin ningún color opuesto — así que
+la jerarquía no se hace con un acento caliente, sino con **valor**: cuanto más oscuro y
+saturado, más importante. De ahí `--hondo` (`#1F4C7D`), que es el mismo azul de la paleta
+llevado a un valor más profundo para que el CTA le gane a los enlaces sin salirse de la
+gama. En tema oscuro se invierte: ahí lo que destaca es lo claro, y `--hondo` pasa a ser
+la menta.
 
 Si cambias un color, cámbialo en los **dos** bloques: `:root` y el de
 `@media (prefers-color-scheme: dark)`.
