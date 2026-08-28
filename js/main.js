@@ -30,7 +30,7 @@ function montarHeader() {
       </nav>
 
       <div class="header__actions">
-        <a href="#/contacto" class="btn btn--sm" data-link>Pedir asesoría ${icon('arrow')}</a>
+        <a href="#/contacto/formulario" class="btn btn--sm" data-link>Pedir asesoría ${icon('arrow')}</a>
         <button class="icon-btn burger" id="burger" aria-label="Abrir menú"
                 aria-expanded="false" aria-controls="mobileMenu">${icon('menu')}</button>
       </div>
@@ -38,7 +38,7 @@ function montarHeader() {
 
   $('#mobileMenu').innerHTML = `
     ${ENLACES.map(([href, texto]) => `<a href="${href}" data-link>${texto}</a>`).join('')}
-    <a href="#/contacto" class="btn" data-link>Pedir asesoría ${icon('arrow')}</a>`;
+    <a href="#/contacto/formulario" class="btn" data-link>Pedir asesoría ${icon('arrow')}</a>`;
 
   const burger = $('#burger');
   const menu = $('#mobileMenu');

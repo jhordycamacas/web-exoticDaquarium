@@ -4,7 +4,7 @@
      #/catalogo       catálogo (opcional: #/catalogo/productos)
      #/item/pez-1     ficha individual
      #/servicios      servicios
-     #/contacto       contacto
+     #/contacto       contacto (#/contacto/formulario baja al formulario)
    ============================================================ */
 import { $, $$, initReveal, initCounters, initCardGlow, hydrateMedia, reduceMotion } from './ui.js';
 import { vistaInicio, vistaCatalogo, vistaDetalle, vistaServicios, vistaContacto } from './views.js';
@@ -14,7 +14,7 @@ const RUTAS = [
   { patron: /^\/catalogo(?:\/(\w+))?$/, vista: vistaCatalogo,  nav: '#/catalogo', claves: ['cat'] },
   { patron: /^\/item\/([\w-]+)$/,       vista: vistaDetalle,   nav: '#/catalogo', claves: ['id'] },
   { patron: /^\/servicios$/,            vista: vistaServicios, nav: '#/servicios' },
-  { patron: /^\/contacto$/,             vista: vistaContacto,  nav: '#/contacto' }
+  { patron: /^\/contacto(?:\/(\w+))?$/,   vista: vistaContacto,  nav: '#/contacto', claves: ['foco'] }
 ];
 
 function resolver(hash) {

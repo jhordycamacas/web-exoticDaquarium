@@ -2,11 +2,11 @@
    Las cinco pantallas del sitio
    Cada vista devuelve { html, mount? }
    ============================================================ */
-import { SITE, HOME, NOSOTROS, PROCESO, FAQ, TBD } from './config.js';
+import { SITE, HOME, NOSOTROS, PROCESO, FAQ, TBD, UBICACION } from './config.js';
 import * as D from './data.js';
 import {
   $, $$, esc, val, valCorto, precio, icon, iconSolid, media, slot, hydrateMedia,
-  waLink, mailLink, marquee, seccionCabecera, bloqueCTA, initFaq, isTBD
+  waLink, mailLink, marquee, seccionCabecera, bloqueCTA, initFaq, isTBD, reduceMotion
 } from './ui.js';
 
 /* ---------- Tarjeta reutilizable ---------- */
@@ -76,7 +76,7 @@ export async function vistaInicio() {
 
           <div class="hero__cta" data-reveal style="--delay:190ms">
             <a href="#/catalogo" class="btn" data-link>Ver el catálogo ${icon('arrow')}</a>
-            <a href="#/contacto" class="btn btn--ghost" data-link>Pedir asesoría</a>
+            <a href="#/contacto/formulario" class="btn btn--ghost" data-link>Pedir asesoría</a>
           </div>
 
           <!-- Video de fondo marino -->
@@ -150,7 +150,7 @@ export async function vistaInicio() {
               <span class="eyebrow">Quiénes somos</span>
               <h2>${esc(NOSOTROS.titulo)}</h2>
               ${NOSOTROS.parrafos.map((t) => `<p>${esc(t)}</p>`).join('')}
-              <a href="#/contacto" class="btn btn--calido" data-link>Hablemos ${icon('arrow')}</a>
+              <a href="#/contacto" class="btn btn--hondo" data-link>Hablemos ${icon('arrow')}</a>
             </div>
             <div class="nosotros__foto">
               ${media('assets/images/nosotros.jpg', 'Nuestro acuario', { tamano: 'md' })}
@@ -504,7 +504,7 @@ export async function vistaServicios() {
 /* ============================================================
    5. CONTACTO
    ============================================================ */
-export async function vistaContacto() {
+export async function vistaContacto({ foco } = {}) {
   const wa = waLink();
   const mail = mailLink();
 
@@ -538,7 +538,35 @@ export async function vistaContacto() {
             'Respondo personalmente. Mientras más detalles me des del espacio, mejor será la propuesta.'
           )}
 
-          <div class="contact-grid">
+          <!-- Banner de ubicación: la imagen del mapa y la dirección
+               escrita van juntas en la misma pieza, antes del formulario. -->
+          <div class="ubi" data-reveal>
+            <figure class="ubi__mapa">
+              <img src="${esc(UBICACION.imagen)}" alt="${esc(UBICACION.alt)}"
+                   loading="lazy" decoding="async" />
+            </figure>
+
+            <div class="ubi__datos">
+              <div class="ubi__dir">
+                ${icon('pin')}
+                <div>
+                  <div class="info-item__k">Dónde estamos</div>
+                  <p class="ubi__calles">${esc(UBICACION.calles)}</p>
+                  <p class="ubi__ref">
+                    ${esc(UBICACION.referencia)}
+                    ${UBICACION.sector ? `<br />Sector ${esc(UBICACION.sector)}${SITE.ciudad ? `, ${esc(SITE.ciudad)}` : ''}.` : ''}
+                  </p>
+                  ${UBICACION.nota ? `<p class="ubi__nota">${esc(UBICACION.nota)}</p>` : ''}
+                </div>
+              </div>
+
+              <a class="btn btn--sm btn--ghost"
+                 href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(UBICACION.mapsQuery)}"
+                 target="_blank" rel="noopener">Cómo llegar ${icon('arrow')}</a>
+            </div>
+          </div>
+
+          <div class="contact-grid" id="zona-formulario">
             <!-- Formulario -->
             <div class="panel" data-reveal>
               <form class="form" id="formulario">
@@ -607,6 +635,23 @@ export async function vistaContacto() {
     mount() {
       const form = $('#formulario');
       const aviso = $('#avisoForm');
+
+      /* "Pedir asesoría" entra por #/contacto/formulario y baja directo
+         al formulario, saltándose el mapa. El router deja la página
+         arriba del todo, así que aquí solo hay que corregir el destino
+         restando el alto del header fijo, que taparía el primer campo. */
+      if (foco === 'formulario') {
+        requestAnimationFrame(() => {
+          const zona = $('#zona-formulario');
+          if (!zona) return;
+          const alto = parseInt(
+            getComputedStyle(document.documentElement).getPropertyValue('--header-h'), 10) || 78;
+          window.scrollTo({
+            top: zona.getBoundingClientRect().top + window.scrollY - alto - 18,
+            behavior: reduceMotion ? 'auto' : 'smooth'
+          });
+        });
+      }
 
       form.addEventListener('submit', (e) => {
         e.preventDefault();

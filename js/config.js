@@ -9,22 +9,45 @@ export const TBD = 'Aún no definido';
 
 export const SITE = {
   nombre: 'Exotic D. Aquarium',
-  claim: 'Peces exóticos',
+  claim: 'Tu mundo acuático',
 
   /* --- Datos de contacto: reemplaza estos valores --- */
-  whatsapp: '', // Ej: '593987654321' (sin + ni espacios). Vacío = se muestra "Aún no definido"
-  email: '',    // Ej: 'hola@exoticdaquarium.com'
-  ciudad: TBD,
+  whatsapp: '0994742541', // Ej: '593987654321' (sin + ni espacios). Vacío = se muestra "Aún no definido"
+  email: 'victorelmascapito@gmail.com',    // Ej: 'hola@exoticdaquarium.com'
+  ciudad: 'Loja',
   horario: TBD,
-  instagram: '',
-  facebook: '',
-  tiktok: ''
+  instagram: 'https://www.instagram.com/exotic_d._aquarium/',
+  facebook: 'https://www.facebook.com/profile.php?id=61558583825369',
+  tiktok: 'https://www.tiktok.com/@exoticdaquarium_'
+};
+
+/* --- Ubicación del local (banner de la pantalla de contacto) ---
+   La imagen es la captura del mapa con el punto marcado. Se sirve en
+   .webp (176 KB); el .png sin comprimir queda como -original, igual
+   que el logo. Si la cambias, deja el archivo en
+   assets/images/ubicacion_y_extras/ y actualiza la ruta aquí.
+   OJO: `calles` y `referencia` son TEXTO DE DEMO, sacado de lo que
+   se lee en la captura. Reescríbelos con la dirección real. */
+export const UBICACION = {
+  imagen: 'assets/images/ubicacion_y_extras/ubicacion.webp',
+  alt: 'Mapa con la ubicación de Exotic D. Aquarium marcada, Loja',
+
+  calles: 'Juan Montalvo y C. Enríquez',        // DEMO — reescribir
+  referencia: 'Casa esquinera, puerta negra. ' +
+              'Hay una tienda.',      // DEMO — reescribir
+  sector: 'Union Lojana / Santa Teresita',                                     // DEMO — reescribir
+
+  nota: 'Las visitas son con cita previa: escríbenos y coordinamos día y hora.',
+
+  /* Búsqueda por nombre en vez de coordenadas: el local ya está
+     registrado en Google Maps, así que el enlace cae en el sitio real. */
+  mapsQuery: 'Exotic D. Aquarium Loja'
 };
 
 /* --- Pantalla de inicio --- */
 export const HOME = {
   pill: 'Atención cercana y personalizada',
-  titulo: ['Peces sanos y', 'agua estable'],
+  titulo: ['Peces sanos y', 'plantas hermosas'],
   subtitulo:
     'Nos apasiona el mundo acuático y trabajamos cada día para que tú y tus peces ' +
     'tengan la mejor experiencia posible. Peces de calidad, todo para tu acuario ' +
@@ -32,14 +55,14 @@ export const HOME = {
   videoTexto: 'Así se ve un acuario cuando el agua está en su punto',
 
   stats: [
-    { num: 0, sufijo: '',  label: 'Años en el acuarismo' },
-    { num: 0, sufijo: '+', label: 'Especies disponibles' },
-    { num: 0, sufijo: '+', label: 'Peceras armadas' },
-    { num: 0, sufijo: '%', label: 'Clientes que repiten' }
+    { num: 4, sufijo: '',  label: 'Años en el acuarismo' },
+    { num: 15, sufijo: '+', label: 'Especies disponibles' },
+    { num: 10, sufijo: '+', label: 'Peceras armadas' },
+    { num: 100, sufijo: '%', label: 'Clientes que repiten' }
   ],
 
   marquee: [
-    'Agua dulce', 'Agua salada', 'Peceras a medida', 'Filtros y equipos',
+    'Agua dulce','Peceras a medida', 'Filtros y equipos',
     'Asesoría personalizada', 'Mantenimiento', 'Atención por WhatsApp'
   ]
 };
@@ -91,7 +114,7 @@ export const FAQ = [
   },
   {
     q: '¿Hacen envíos a otras ciudades?',
-    a: TBD
+    a: 'Claro que sí. Hacemos envíos a todo el país.'
   },
   {
     q: '¿Cuánto cuesta armar una pecera?',
